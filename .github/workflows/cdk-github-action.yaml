@@ -32,9 +32,7 @@ jobs:
           cdk deploy --require-approval never --outputs-file ./cdk-outputs.json
 
           echo "::set-output name=DISTRIBUTION_ID::$(
-            cat cdk-outputs.json |
-            grep distributionID |
-            sed -n 's/.*"distributionID": *"\([^"]*\)".*/\1/p'
+            cat cdk-outputs.json | sed -n 's/.*"distributionID": *"\([^"]*\)".*/\1/p'
             )"
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
