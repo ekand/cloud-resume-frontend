@@ -41,6 +41,6 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_DEFAULT_REGION: us-east-2
       - name: Invalidate Cache
-        with:
+        env:
           DISTRIBUTION_ID: "${{ steps.Deploy_CDK_Stack.outputs.DISTRIBUTION_ID }}"
         run: aws cloudfront create-invalidation --distribution-id $DISTRIBUTION_ID
