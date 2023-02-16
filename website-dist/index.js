@@ -1,20 +1,10 @@
 var counterContainer = document.querySelector(".website-counter");
-var resetButton = document.querySelector("#reset");
-var visitCount = localStorage.getItem("page_view");
 
-// Check if page_view entry is present
-if (visitCount) {
-  visitCount = Number(visitCount) + 1;
-  localStorage.setItem("page_view", visitCount);
-} else {
-  visitCount = 1;
-  localStorage.setItem("page_view", 1);
+async function post_visit_and_get_count() {
+  const response = await fetch(
+    "https://noc1qi04ah.execute-api.us-east-2.amazonaws.com/prod/visits",
+    { method: "POST" }
+  );
+  console.log(response);
 }
-counterContainer.innerHTML = visitCount;
-
-// Adding onClick event listener
-resetButton.addEventListener("click", () => {
-  visitCount = 1;
-  localStorage.setItem("page_view", 1);
-  counterContainer.innerHTML = visitCount;
-});
+post_visit_and_get_count();
