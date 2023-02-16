@@ -12,8 +12,10 @@ import { Construct } from "constructs";
 export class CloudResumeFrontendStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
+
     const assetsBucket = new s3.Bucket(this, "CloudResumeBackendBucket", {
       websiteIndexDocument: "index.html",
+      publicReadAccess: true,
     });
 
     new s3deploy.BucketDeployment(this, "DeployWebsite", {
