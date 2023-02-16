@@ -12,7 +12,7 @@ export class CloudResumeFrontendStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
 
-    const assetsBucket = new s3.Bucket(this, "CloudResumeBackendBucket", {
+    const assetsBucket = new s3.Bucket(this, "CloudResumeFrontendBucket", {
       websiteIndexDocument: "index.html",
       // publicReadAccess: true,
     });
