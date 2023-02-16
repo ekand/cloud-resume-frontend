@@ -6,5 +6,9 @@ async function post_visit_and_get_count() {
     { method: "POST" }
   );
   console.log(response);
+  const resp_json = await response.json();
+  const number_of_visits = resp_json.visits;
+  return number_of_visits;
 }
-post_visit_and_get_count();
+const visits = post_visit_and_get_count();
+counterContainer.innerHTML = visits;
