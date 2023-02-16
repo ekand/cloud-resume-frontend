@@ -7,7 +7,6 @@ import * as acm from "aws-cdk-lib/aws-certificatemanager";
 import * as route53 from "aws-cdk-lib/aws-route53";
 import * as targets from "aws-cdk-lib/aws-route53-targets";
 import { Construct } from "constructs";
-// import * as sqs from 'aws-cdk-lib/aws-sqs';
 
 export class CloudResumeFrontendStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
@@ -29,11 +28,15 @@ export class CloudResumeFrontendStack extends cdk.Stack {
       // found using aws acm list-certificates --region us-east-1
       "arn:aws:acm:us-east-1:212702451742:certificate/abf2dd8b-3651-4fe1-9452-56ade04917e1"
     );
-    const cf = new cloudfront.Distribution(this, "myDist", {
-      defaultBehavior: { origin: new origins.S3Origin(assetsBucket) },
-      domainNames: ["erikresume.com"],
-      certificate,
-    });
+    const cf = new cloudfront.Distribution(
+      this,
+      "CloudResumeFrontendDistribution",
+      {
+        defaultBehavior: { origin: new origins.S3Origin(assetsBucket) },
+        domainNames: ["erikresume.com"],
+        certificate,
+      }
+    );
 
     const zone = route53.HostedZone.fromHostedZoneAttributes(
       this,
