@@ -43,4 +43,4 @@ jobs:
       - name: Invalidate Cache
         with:
           DISTRIBUTION_ID: "${{ steps.Deploy_CDK_Stack.outputs.DISTRIBUTION_ID }}"
-          run: aws cloudfront create-invalidation --distribution-id $DISTRIBUTION_ID
+        run: aws cloudfront create-invalidation --distribution-id $DISTRIBUTION_ID
