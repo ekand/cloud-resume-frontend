@@ -37,4 +37,4 @@ jobs:
       - name: Invalidate Cache
         run: |
           export DISTRIBUTION_ID=$(cat cdk-outputs.json | sed -n 's/.*"distributionID": *"\([^"]*\)".*/\1/p')
-          aws cloudfront create-invalidation --distribution-id $DISTRIBUTION_ID
+          aws cloudfront create-invalidation --distribution-id $DISTRIBUTION_ID --paths "/*"
