@@ -14,7 +14,7 @@ export class CloudResumeFrontendStack extends cdk.Stack {
 
     const assetsBucket = new s3.Bucket(this, "CloudResumeBackendBucket", {
       websiteIndexDocument: "index.html",
-      publicReadAccess: true,
+      // publicReadAccess: true,
     });
 
     new s3deploy.BucketDeployment(this, "DeployWebsite", {
