@@ -1,4 +1,4 @@
-var counterContainer = document.querySelector(".website-counter");
+let counterContainer = document.querySelector(".website-counter");
 
 async function post_visit_and_get_count() {
   const response = await fetch(
@@ -10,5 +10,10 @@ async function post_visit_and_get_count() {
   const number_of_visits = resp_json.visits;
   return number_of_visits;
 }
-const visits = post_visit_and_get_count();
-counterContainer.innerHTML = visits;
+
+async function updateCounter() {
+  const visits = await post_visit_and_get_count();
+  counterContainer.innerHTML = visits;
+}
+
+updateCounter();
