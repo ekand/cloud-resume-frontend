@@ -30,20 +30,11 @@ jobs:
       - name: Deploy_CDK_Stack
         run: |
           cdk deploy --require-approval never --outputs-file ./cdk-outputs.json
-
-          echo "::set-output name=DISTRIBUTION_ID::$(
-            cat cdk-outputs.json | sed -n 's/.*"distributionID": *"\([^"]*\)".*/\1/p'
-            )"
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_DEFAULT_REGION: us-east-2
       - name: Invalidate Cache
-        env:
-          DISTRIBUTION_ID: "${{ steps.Deploy_CDK_Stack.outputs.DISTRIBUTION_ID }}"
-
         run: |
-          echo $DISTRIBUTION_ID
-          export FOO_FOO=12345
-          echo $FOO_FOO
+          export DISTRIBUTION_ID=$(cat cdk-outputs.json | sed -n 's/.*"distributionID": *"\([^"]*\)".*/\1/p')"
           aws cloudfront create-invalidation --distribution-id $DISTRIBUTION_ID
