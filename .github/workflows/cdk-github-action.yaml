@@ -27,10 +27,20 @@ jobs:
           npm install -g aws-cdk
           npm install
 
-      - name: Deploy CDK stack
+      - name: Deploy_CDK_Stack
         run: |
-          cdk deploy --require-approval never
+          cdk deploy --require-approval never --outputs-file ./cdk-outputs.json
+
+          echo "::set-output name=DISTRIBUTION_ID::$(
+            cat cdk-outputs.json |
+            grep distributionID |
+            sed -n 's/.*"distributionID": *"\([^"]*\)".*/\1/p'
+            )"
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_DEFAULT_REGION: us-east-2
+      - name: Invalidate Cache
+        with:
+          DISTRIBUTION_ID: "${{ steps.Deploy_CDK_Stack.outputs.DISTRIBUTION_ID }}"
+          run: aws cloudfront create-invalidation --distribution-id $DISTRIBUTION_ID

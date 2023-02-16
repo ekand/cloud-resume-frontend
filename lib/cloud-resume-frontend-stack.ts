@@ -56,5 +56,11 @@ export class CloudResumeFrontendStack extends cdk.Stack {
       zone,
       target: route53.RecordTarget.fromAlias(new targets.CloudFrontTarget(cf)),
     });
+
+    new cdk.CfnOutput(this, "distributionID", {
+      value: cf.distributionId,
+      description: "The id of the distribution",
+      exportName: "distributionID",
+    });
   }
 }
